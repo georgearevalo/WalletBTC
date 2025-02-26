@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: API for Wallet BTC Service
+  version: 1.0.0
+  description: |
+    API for Wallet BTC Service
+
+    ### Key Features
+    - **Wallet BTC:** Retrieval of Wallet BTC information.
+servers:
+  - url: http://localhost:8080
+    description: Local environment
+paths:
+  /wallet-BTC-services/wallet:
+    get:
+      summary: Gets info Wallet BTC.
+      description: Retrieves info Wallet BTC.
+      operationId: getWalletBTC
+      tags:
+        - Wallet BTC
+      parameters:
+        - $ref: '#/components/parameters/X-Wallet-BTC'
+      responses:
+        '200':
+          description: A list of sales projections.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletResponse'
+        '400':
+          description: Bad request
+        '404':
+          description: Sales Projections not found
+        '412':
+          description: Precondition failed
+        '500':
+          description: Internal server error
+components:
+  parameters:
+    X-Wallet-BTC:
+      name: x-wallet-BTC
+      in: header
+      description: The WalletBTC
+      required: true
+      schema:
+        type: string
+        example: "ABCD"
+  schemas:
+    WalletResponse:
+      type: object
+      properties:
+        numberOfWallets:
+          type: integer
+          example: 12
+        wallet:
+          type: array
+          items:
+            $ref: '#/components/schemas/WalletsDTO'
+    WalletsDTO:
+      type: object
+      properties:
+        walletId:
+          type: integer
+          example:  1
+        walletName:
+          type: string
+          example:  "ABCDEF"
