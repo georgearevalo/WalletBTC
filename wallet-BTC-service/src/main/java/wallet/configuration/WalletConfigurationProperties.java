@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 @Primary
 @Component
 @ConfigurationProperties(prefix = "wallet-btc")
-public class AwsAthenaConfigurationProperties {
+public class WalletConfigurationProperties {
 
-  private String firtProperty;
+  private String walletSend;
+  private String walletReceive;
 }
