@@ -31,10 +31,47 @@ paths:
           description: Bad request
         '404':
           description: Sales Projections not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDTO'
         '412':
           description: Precondition failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDTO'
+  /wallet/send:
+    post:
+      summary: Sends BTC to an address.
+      description: Sends a specified amount of BTC to a specified address.
+      operationId: sendBitcoin
+      tags:
+        - Wallet BTC
+      requestBody:
+        description: Address and amount to send.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendRequest'
+      responses:
+        '200':
+          description: Transaction initiated successfully.
+        '400':
+          description: Bad request (e.g., invalid address or amount).
+        '500':
+          description: Internal server error (e.g., insufficient funds).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDTO'
 components:
   parameters:
     X-Wallet-BTC:
@@ -46,6 +83,33 @@ components:
         type: string
         example: "ABCD"
   schemas:
+    SendRequest:
+      type: object
+      properties:
+        toAddress:
+          type: string
+          example: "bc1qfwuxuc3hefl4egs6ldagwyl83h9v53s39p7qff"
+        amount:
+          type: integer
+          format: int64
+          description: "Amount in satoshis"
+          example: 10000
+    ErrorResponseDTO:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 404
+        errorCode:
+          type: string
+          example: Wal0001
+        message:
+          type: string
+          example: Register not found
+        timestamp:
+          type: string
+          format: date-time
+          example: 2024-06-05T12:34:36Z
     WalletResponse:
       type: object
       properties:
@@ -56,6 +120,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WalletsDTO'
+        address:
+          type: string
+          example: "19tRxe2hAmRS5ZZai5M5ve1bCTKcZX7Rwc"
+        balance:
+          type: string
+          example: "0.001 BTC"
     WalletsDTO:
       type: object
       properties:
