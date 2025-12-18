@@ -3,8 +3,15 @@
 # compiled output
 build/
 target/
+logs/
 
 # files wallet
 simplewallet.wallet
 simplewallet2.wallet
 spvblockstore.spvchain
+wallet-btc-service.spvchain
+wallet-btc-service.wallet
+simplewalletAnt.wallet
+wallet-btc-serviceAnt.walletgit 
+
+.vscode/
